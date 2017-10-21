@@ -1,0 +1,87 @@
+@font-face{
+	font-family: 'admiration_pain';
+	src: url("./fonts/Admiration Pains.ttf");
+
+}
+body{
+	background-color: white;
+	background-image: url("./photos/background.jpg");
+	background-repeat: no-repeat;
+	background-size: auto;
+	background-attachment: fixed;
+	background-position: 40% 30%;
+}
+table{
+	position: relative;
+	left: 500px;
+}
+.btn_pic h4{
+	background-image: url('./photos/brain-2-xxl.png');
+	background-repeat: no-repeat;
+	background-size: 100%;
+	height: 120px;
+	width: 400px;
+	text-align: center;
+	font-size: 30px;
+	color: white;
+	padding-top: 25px;
+	text-shadow: 2px 2px 5px black;
+	text-decoration: none;
+}
+.btn_pic a{
+	text-decoration: none;
+}
+.banner{
+	background-image: url('./photos/header_background.png');
+	background-repeat: repeat-x;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 60px;
+	width: 100%;
+}
+.banner table{
+	position: fixed;
+	right: 0px;
+	top: 20px;
+
+}
+.banner td{
+	width: 150px;
+	text-align: center;
+	background-color: rgba(0, 51, 153, 0.5);
+}
+.banner a{
+	color: white;
+	text-decoration: none;
+	text-align: center;
+}
+.banner h4{
+	background-image: none;
+	position: absolute;
+	color: white;
+	font-size: 20px;
+}
+img{
+	position: fixed;
+	height: 300px;
+	width: 200px;
+	bottom: 20px;
+}
+.bubble img{
+	position: fixed;
+	height: 300px;
+	width: 350px;
+	bottom: 230px;
+	left: 120px;
+}
+.bubble p{
+	position: fixed;
+	bottom: 250px;
+	left: 275px;
+	width: 200px;
+	font-size: 30px;
+}
+.retain_user{
+	display: none;
+}

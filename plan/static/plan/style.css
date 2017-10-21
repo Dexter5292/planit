@@ -1,0 +1,73 @@
+@font-face{
+	font-family: 'admiration_pain';
+	src: url("./fonts/Admiration Pains.ttf");
+
+}
+body{
+	background-color: white;
+	background-image: url("./photos/background.jpg");
+	background-repeat: no-repeat;
+	background-size: auto;
+	background-attachment: fixed;
+	background-position: 40% 30%;
+}
+.banner{
+	background-image: url('./photos/header_background.png');
+	background-repeat: repeat-x;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 60px;
+	width: 100%;
+}
+.banner table{
+	position: fixed;
+	right: 0px;
+	top: 25px;
+
+}
+.banner td{
+	width: 100px;
+	text-align: center;
+	background-color: rgba(0, 51, 153, 0.5);
+}
+.banner a{
+	color: white;
+	text-decoration: none;
+	text-align: center;
+}
+form{
+	background-color: rgba(10, 31, 66, 0.5);
+	width: 250px;
+	position: absolute;
+	right: 45%;
+	top: 15%;
+	border: solid 3px black;
+}
+h1{
+	text-align: center;
+	font-family: 'admiration_pain';
+	color: rgb(200, 221, 255);
+	text-shadow: 3px 3px 5px black;
+}
+input[type='text'], input[type='email'], input[type='password']{
+	margin: 10px 10px 10px 10px;
+	position: relative;
+	height: 30px;
+	width: 225px;
+	border: 3px solid;
+	border-color: rgb(210, 231, 255);
+	text-align: center;
+}
+input[type='submit']{
+	height: 60px;
+	width: 130px;
+	position:absolute;
+	bottom: -70px;
+	background-color: black;
+	font-family: 'admiration_pain';
+	color: white;
+	font-size: 20px;
+	text-align: center;
+	text-shadow: 3px 3px 5px blue;
+}

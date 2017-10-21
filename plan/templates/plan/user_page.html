@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Home</title>
+	<meta charset="utf-8">
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'plan/user_page_stylesheet.css' %}"> 
+	
+</head>
+<body>
+	<span class="banner">
+		<h4>Welcome {{user.username}}</h4>
+		<table>
+			<td><a href="./school_info">Edit School info</a></td>
+			<td><a href="./class_info">Edit class info</a></td>
+			<td><a href="./subject_info">Edit subject info</a></td>
+			<td><a href="./past_plans">Past plans</a></td>
+			<td><a href="./profile">My profile</a></td>
+		</table>
+	</span>
+	<br><br>
+	<img src="{% static 'plan/photos/mentor.png' %}">
+	<div class='bubble'>
+		<img src="{% static 'plan/photos/speach.png' %}">
+		<p>Let's start planning!<br>
+		Select the period of time <br>to plan for:</p>
+	</div>
+	<div class="btn_pic">
+		<form>
+			In order for PLANit to work properly,
+			we need to setup some information,
+			this will take some time in the beginning
+			but will eventually pay off in a big way.
+			<table>
+			<tr>
+				<td>Setup planning</td>
+				<td><input type="submit" name="initial"></td>
+			</tr>
+			<tr>
+				
+			</tr>
+			</table>
+		</form>
+	</div>
+</body>
+</html>

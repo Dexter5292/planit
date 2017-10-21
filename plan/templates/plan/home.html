@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login</title>
+	<meta charset="utf-8">
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'plan/style.css' %}">
+</head>
+<body>
+	<span class="banner">
+		<table>
+			<td><a href="./signup">Sign Up</a></td>
+			<td><a href="./help">Help</a></td>
+		</table>
+	</span>
+	<form action="" method="POST">
+		{% csrf_token %}
+		<h1>Sign In</h1>
+		{% if failed %}
+			<label style="
+			display: block;
+			color: white;
+			background: black;
+			font-size: 20px;
+			text-align: center;">You don't seem to be registered</label>
+			<a href="./register/" style="
+			display: block;
+			color: white;
+			background: black;
+			font-size: 20px;
+			text-align: center;">Sign Up?</a>
+		{% endif %}
+		<input type="email" name="email" placeholder='Enter your e-mail' required>
+		<input type="password" name="password" placeholder='Enter your password' required><br>
+		<input type="submit" name="sub_button" value='Sign In'>
+	</form>
+</body>
+</html>

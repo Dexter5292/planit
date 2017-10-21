@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Register</title>
+	<meta charset="utf-8">
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'plan/style.css' %}">
+</head>
+<body>
+	<span class="banner">
+		<table>
+			<td><a href="">Sign In</a></td>
+			<td><a href="./help">Help</a></td>
+		</table>
+	</span>
+	<form action="" method="POST">
+		{% csrf_token %}
+		<h1>Register</h1>
+		<input type="text" name="username" placeholder="Enter your e-mail address">
+		<input type="text" name="firstname" placeholder="Enter your first name">
+		<input type="text" name="lastname" placeholder="Enter your last name">
+		<p>Please make sure that your password is more
+		than 8 characters long and contains both alphbetic and numeric characters.</p>
+		<input type="password" name="password" placeholder='Enter your password' required><br>
+		<input type="password" name="confirm_password" placeholder='Retype password' name="">
+		<input type="submit" name="sub_button" value='Register'>
+	</form>
+</body>
+</html>

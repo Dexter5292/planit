@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Year Plan Setup</title>
+	<meta charset="utf-8">
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'plan/yearplan.css' %}">
+</head>
+<body>
+		<span class="banner">
+			<table>
+				<td><a href="./school_info">Edit School info</a></td>
+				<td><a href="./class_info">Edit class info</a></td>
+				<td><a href="./subject_info">Edit subject info</a></td>
+				<td><a href="./past_plans">Past plans</a></td>
+				<td><a href="./profile">My profile</a></td>
+			</table>
+		</span>
+		{% if step == 1 %}
+		<div class='step1'>
+			<form action="" method="POST">
+				{% csrf_token %}
+				<h1>Step {{step}}: Start by selecting the term dates.</h1>
+				<table>
+					<tr>
+						<td>Year</td><td><input type="number" name="year_name" min=2017 max=2099></td>
+					</tr>
+					<tr id="table_heading">
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					
+					<tr>
+						<td>Term 1 begins:</td>
+						<td><input type="date" name="t1s" placeholder="MM-DD"></td>
+						<td>Term 1 ends:</td>
+						<td><input type="date" name="t1e" placeholder="MM-DD"></td>
+					</tr>
+					<tr>
+						<td>Term 2 begins:</td>
+						<td><input type="date" name="t2s" placeholder="MM-DD"></td>
+						<td>Term 2 ends:</td>
+						<td><input type="date" name="t2e" placeholder="MM-DD"></td>
+					</tr>
+					<tr>
+						<td>Term 3 begins:</td>
+						<td><input type="date" name="t3s" placeholder="MM-DD"></td>
+						<td>Term 3 ends:</td>
+						<td><input type="date" name="t3e" placeholder="MM-DD"></td>
+					</tr>
+					<tr>
+						<td>Term 4 begins:</td>
+						<td><input type="date" name="t4s" placeholder="MM-DD"></td>
+						<td>Term 4 ends:</td>
+						<td><input type="date" name="t4e" placeholder="MM-DD"></td>
+					</tr>
+					<tr><td>{{user.username}}</td></tr>
+				</table>
+				<input type="number" name="step" value=1 style='display:none;'>
+				<input type="text" name="usr_name" value='{{user.username}}' style='display:none;'>
+				<input type="submit" name="btn" value='NEXT'>
+			</form>
+		{% endif %}
+		{% if step == 2 %}
+				<form>
+					<h1>School Info</h1>
+					<table>
+						<tr><td colspan="2">Providing Planit with some information on how your school functions, will allow the program to draw up custom plans according your actual day at school.  It's a little bit tedious at the beginning, but pays of in a big time.</td>
+						</tr>
+						<tr>
+							<td>School Name:</td><td><input type="text" name="sch_name" style='width:250px;'></td>
+						</tr>
+						<tr>
+							<td>Choose your subject:</td><td><select>
+								{% for i in sub %}
+									<option> {{i}} </option>
+								{% endfor %}
+							</select></td>
+						</tr>
+						<tr>
+							<td style='font-size: 15px; color:white;'><a href="./subject_info" style='color:white;'>Click here</a> to add a subject</td>
+						</tr>
+						<tr>
+							<td>Over a period of how long does your timetable run?</td>
+							<td><select>
+								<option name='1w'>1 Week</option>
+								<option name='2w'>2 Weeks</option>
+								<option name= '3w'>3 Weeks</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>How long (in minutes) is a period more or less?</td>
+							<td><input type="number" name="period_time" min=15 max=90></td>
+						</tr>
+					</table>
+					<input type="submit" name="btn" value="NEXT">
+				</form>
+			{% endif %}
+	</div>
+</body>
+</html>
