@@ -63,7 +63,8 @@
 			</form>
 		{% endif %}
 		{% if step == 2 %}
-				<form>
+				<form action="" method="POST">
+					{% csrf_token %}
 					<h1>School Info</h1>
 					<table>
 						<tr><td colspan="2">Providing Planit with some information on how your school functions, will allow the program to draw up custom plans according your actual day at school.  It's a little bit tedious at the beginning, but pays of in a big time.</td>
@@ -72,7 +73,7 @@
 							<td>School Name:</td><td><input type="text" name="sch_name" style='width:250px;'></td>
 						</tr>
 						<tr>
-							<td>Choose your subject:</td><td><select>
+							<td>Choose your subject:</td><td><select name='subject'>
 								{% for i in sub %}
 									<option> {{i}} </option>
 								{% endfor %}
@@ -83,7 +84,7 @@
 						</tr>
 						<tr>
 							<td>Over a period of how long does your timetable run?</td>
-							<td><select>
+							<td><select name='table_span'>
 								<option name='1w'>1 Week</option>
 								<option name='2w'>2 Weeks</option>
 								<option name= '3w'>3 Weeks</option>
@@ -95,7 +96,26 @@
 							<td><input type="number" name="period_time" min=15 max=90></td>
 						</tr>
 					</table>
+					<input type="number" name="step" value=2 style='display:none;'>
+				<input type="text" name="usr_name" value='{{user.username}}' style='display:none;'>
 					<input type="submit" name="btn" value="NEXT">
+				</form>
+			{% endif %}
+			{% if step == 3 %}
+				<form action="" method="POST">
+					{% csrf_token %}
+					<table>
+						<tr>
+							<td>{{ subject.subject_name }}</td>
+						</tr>
+						<tr>
+							<td>{{ user.username }}</td>
+						</tr>
+						<tr>
+							<td>{{ step }}</td>
+						</tr>
+					</table>
+					<input type="submit" name="btn">
 				</form>
 			{% endif %}
 	</div>

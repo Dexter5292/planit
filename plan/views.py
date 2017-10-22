@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.http import HttpResponse 
-from . import forms, models
-from .models import initial_done, subject_info
+from . import forms, models, scedule
+from .models import initial_done, subject_info, school_info
 
 def home(request):
 	if request.method == "GET":
@@ -83,23 +83,51 @@ def yearplan(request):
 		request.POST.get('t4e'),
 		request.POST.get('step_hold')]
 		usr = request.POST.get('usr_name')
+
+		term1 = scedule.weekdays(intro[1], intro[2])
+		term2 = scedule.weekdays(intro[3], intro[4])
+		term3 = scedule.weekdays(intro[5], intro[6])
+		term4 = scedule.weekdays(intro[7], intro[8])
+		
 		user = User.objects.get(username=usr)
 		year = models.user_to_year(
 			username = user,
-			year_name = intro[0],
-			term1_start=intro[1],
-			term1_end=intro[2],
-			term2_start=intro[3],
-			term2_end=intro[4],
-			term3_start=intro[5],
-			term3_end=intro[6],
-			term4_start=intro[7],
-			term4_end=intro[8],
+			year_name= intro[0],
+			term1_days=term1,
+			term2_days=term2,
+			term3_days=term3,
+			term4_days=term4
 			)
 		year.save()
 		subject = subject_info.objects.all()
 		return render(request, 'plan/yearplan.html', {
 			'step':2,
-			'sub': subject})
+			'sub': subject,
+			'user':user
+			})
+	elif step == '2':
+		intro = [
+		request.POST.get('sch_name'),
+		request.POST.get('subject'),
+		request.POST.get('period_time'),
+		request.POST.get('table_span'),
+		request.POST.get('step_hold'),
+		]
+		roster_len = int(intro[3][0])
+		usr = request.POST.get('usr_name')
+		usr = User.objects.get(username=usr)
+		sub = subject_info.objects.get(subject_name=intro[1])
+		school = school_info(username=usr,
+			sch_name=intro[0],
+			sch_table_span=roster_len,
+			sch_period_length=intro[2]
+			)
+		school.save()
+		return render(request, 'plan/yearplan.html', {
+			'step':3,
+			'user': usr,
+			'subject': sub
+			})
+
 		#finally:
 			# handle 404 error.
