@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.http import HttpResponse 
-from . import forms, models, scedule
+from . import forms, models, scedule,termsoup
 from .models import initial_done, subject_info, school_info
 
 def home(request):
@@ -67,9 +67,18 @@ def yearplan(request):
 	step = request.POST.get('step')
 	if step == '0':
 		user = User.objects.get(username=request.POST.get('usr_name'))
+		dept_suggest = termsoup.department_recommendations()
+		t1 = dept_suggest[0]
+		t2 = dept_suggest[1]
+		t3 = dept_suggest[2]
+		t4 = dept_suggest[3]
 		return render(request, 'plan/yearplan.html', {
 			'step':1,
-			'user': user})
+			'user': user,
+			"term1_date": t1,
+			"term2_date": t2,
+			"term3_date": t3,
+			"term4_date": t4})
 	elif step == '1':
 		# Handle input to db
 		intro = [request.POST.get('year_name'),
@@ -126,8 +135,14 @@ def yearplan(request):
 		return render(request, 'plan/yearplan.html', {
 			'step':3,
 			'user': usr,
-			'subject': sub
+			'subject': sub,
+			'school_name': intro[0]
 			})
+	elif step == '3':
 
+		# Load post to database
+		# Redirect to class_info 'optional'
+		
+		return HttpResponse("Success")
 		#finally:
 			# handle 404 error.

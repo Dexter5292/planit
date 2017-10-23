@@ -4,13 +4,13 @@ from django.contrib.auth.models import User
 class initial_done(models.Model):
 	username = models.ForeignKey(User, on_delete=models.CASCADE)
 	done = models.BooleanField(default=False)
-	if done:
+	if done == True:
 		state = "Completed"
 	else:
 		state = "No Completed"
 
 	def __str__(self):
-		return self.done
+		return self.state
 
 class user_to_year(models.Model):
 	username = models.ForeignKey(User, on_delete=models.CASCADE)

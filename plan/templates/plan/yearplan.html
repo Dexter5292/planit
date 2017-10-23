@@ -18,7 +18,7 @@
 		</span>
 		{% if step == 1 %}
 		<div class='step1'>
-			<form action="" method="POST">
+			<form action="" method="POST" style="display:relative; right: 220px;">
 				{% csrf_token %}
 				<h1>Step {{step}}: Start by selecting the term dates.</h1>
 				<table>
@@ -61,6 +61,17 @@
 				<input type="text" name="usr_name" value='{{user.username}}' style='display:none;'>
 				<input type="submit" name="btn" value='NEXT'>
 			</form>
+			<div class="spider">
+				<table style="border: solid black 3px;
+				width: 350px; background-color: rgba(10, 31, 66, 0.5);"><br><br><br><br><br>
+				<th colspan="2" style='text-align:left;'> <h3 style='color: white; text-shadow: 3px 3px 5px black;'>Department Suggestion</h3>
+				</th>
+				<tr><td colspan="2">The department of education of South Africa recommend the following Term dates for government schools according to their website.</td></tr>
+				<tr><td style='width:60px'>Term 1</td><td>{{ term1_date }}</td></tr>
+				<tr><td style='width:65px'>Term 2</td><td>{{ term2_date }}</td></tr>
+				<tr><td style='width:75px'>Term 3</td><td>{{ term3_date }}</td></tr>
+				<tr><td style='width:85px'>Term 4</td><td>{{ term4_date }}</td></tr>
+			</table></div>
 		{% endif %}
 		{% if step == 2 %}
 				<form action="" method="POST">
@@ -104,17 +115,52 @@
 			{% if step == 3 %}
 				<form action="" method="POST">
 					{% csrf_token %}
+					<h1>Step {{step}}: Some subject particulars for {{ subject.subject_name }} @ {{ school_name }}:</h1>
 					<table>
 						<tr>
-							<td>{{ subject.subject_name }}</td>
+							<td>How many periods do you have in total for {{ subject.subject_name }}</td>
+							<td><input type="Number" name="rtotal" min=1 max=10></td>
 						</tr>
 						<tr>
-							<td>{{ user.username }}</td>
+							<td>For which Grade would you like to open this branch?</td>
+							<td><select name='grade'>
+								<option>Primary School</option>
+								<option>Grade 8</option>
+								<option>Grade 9</option>
+								<option>Grade 10</option>
+								<option>Grade 11</option>
+								<option>Grade 12</option>
+								<option>IGCSE Cambridge</option>
+								<option>AS Cambridge</option>
+								<option>A Cambridge</option>
+							</select></td>
 						</tr>
 						<tr>
-							<td>{{ step }}</td>
+							<td>Does your subject have a Practical aspect?</td>
+							<td><select name='Prac_Sub'>
+								<option>Yes</option>
+								<option>No</option>
+							</select></td>
+						</tr>
+						<tr>
+							<td>If you answered yes to the previous question, what is the ratio between practical and theory lessons</td>
+							<td><select name= 'prac_ratio'>
+								<option>50/50</option>
+								<option>1 Practical for 3 Theory</option>
+								<option>1 Theory for 3 Practicals</option>
+								<option>Limited practical</option>
+							</select></td>
+						</tr>
+						<tr>
+							<td>Which syllabus would you like to use for this subject?</td>
+							<td><select name='syllabus'>
+								<option>SA Government</option>
+								<option>Cambridge Education</option>
+							</select></td>
 						</tr>
 					</table>
+					<input type="number" name="step" value=3 style='display:none;'>
+				<input type="text" name="usr_name" value='{{user.username}}' style='display:none;'>
 					<input type="submit" name="btn">
 				</form>
 			{% endif %}

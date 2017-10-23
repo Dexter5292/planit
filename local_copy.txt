@@ -1,0 +1,144 @@
+Term
+Duration
+Number of weeks
+Number of days
+Number of public holidays
+Actual number of school days
+1
+(9) 11 Jan - 31 March
+12
+56 (60)
+1 + 1
+56 (58)
+2
+18 April - 30 June
+11
+54
+3 + 1
+50
+3
+24 July - 29 September
+10
+50
+2
+48
+4
+9 Oct - 6 (8) Dec
+9
+43 (45)
+0
+43 (45)
+ 
+Total
+43
+205 (209)
+6 + 2
+197 (201)
+Term
+Duration
+Number of weeks
+Number of days
+Number of public holidays
+Actual number of school days
+1
+17 (15) Jan - 28 March
+17 (15) Jan - 28 March
+51 (53)
+1
+50 (52)
+2
+10 April - 22 June
+11
+54
+2 + 1
+51
+3
+17 July - 28 September
+11
+54
+2 + 1
+51
+4
+9 Oct - 12 (14) Dec
+10
+47 (49)
+0
+47 (49)
+ 
+Total
+43
+206 (210)
+5 + 2
+199 (203)
+Term
+Duration
+Number of weeks
+Number of days
+Number of public holidays
+Actual number of school days
+1
+(07) 09 Jan - 20 March
+(07) 09 Jan - 20 March
+51 (53)
+0
+51 (53)
+2
+09 Apr - 21 Jun
+11
+54
+4 + 0
+50
+3
+16 Jul - 27 Sep
+11
+54
+2 + 1
+51
+4
+07 Oct - 11 (13) Dec
+10
+48 (50)
+0
+48 (50)
+ 
+Total
+43
+207 (211)
+6 + 1
+200 (204)
+Term
+Duration
+Number of weeks
+Number of days
+Number of public holidays
+Actual number of school days
+1
+(14) 16 Jan - 29 Mar
+(14) 16 Jan - 29 Mar
+53 (55)
+1 + 1
+51 (53)
+2
+09 Apr - 21 Jun
+11
+54
+4 + 0
+50
+3
+16 Jul - 27 Sep
+11
+54
+2 + 1
+51
+4
+07 Oct - 11 (13) Dec
+10
+48 (50)
+0
+48 (50)
+ 
+Total
+43
+209 (213)
+7 + 2
+200 (204)

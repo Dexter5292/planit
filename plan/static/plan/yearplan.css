@@ -36,6 +36,12 @@ body{
 	text-decoration: none;
 	text-align: center;
 }
+.spider{
+	position: fixed;
+	top: 50%;
+	border: solid 1px black;
+	width: 100px;
+}
 form{
 	background-color: rgba(10, 31, 66, 0.5);
 	width: 750px;
@@ -74,3 +80,4 @@ input[type='submit']{
 	color: white;
 	background-color: rgba(10, 31, 66, 0.9);
 }
+
