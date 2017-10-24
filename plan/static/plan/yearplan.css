@@ -36,17 +36,19 @@ body{
 	text-decoration: none;
 	text-align: center;
 }
-.spider{
-	position: fixed;
-	top: 50%;
-	border: solid 1px black;
-	width: 100px;
-}
 form{
 	background-color: rgba(10, 31, 66, 0.5);
 	width: 750px;
 	position: absolute;
 	right: 25%;
+	top: 15%;
+	border: solid 3px black;
+}
+.spider div{
+	display:block;
+	background-color: rgba(10, 31, 66, 0.5);
+	width: 250px;
+	position: absolute;
 	top: 15%;
 	border: solid 3px black;
 }

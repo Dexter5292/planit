@@ -5,6 +5,26 @@
 	<meta charset="utf-8">
 	{% load static %}
 	<link rel="stylesheet" type="text/css" href="{% static 'plan/yearplan.css' %}">
+	<script type="text/javascript">
+			function add(){
+			var form = document.getElementById('learner_info');
+			var table_parent = document.getElementById('addtable');
+			var row = document.createElement('tr');
+			var data = document.createElement('td');
+			var data2 = document.createElement('td');
+			var lname = document.createElement('input');
+			var lsurname = document.createElement('input');
+			var lable = document.createElement('p');
+			lable.value = "Name and Surname:"
+			table_parent.appendChild(row);
+			row.appendChild(data);
+			row.appendChild(data2);
+			data.appendChild(lable);
+			data2.appendChild(lname);
+			data2.appendChild(lsurname);
+
+		}
+	</script>
 </head>
 <body>
 		<span class="banner">
@@ -22,8 +42,8 @@
 				{% csrf_token %}
 				<h1>Step {{step}}: Start by selecting the term dates.</h1>
 				<table>
-					<tr>
-						<td>Year</td><td><input type="number" name="year_name" min=2017 max=2099></td>
+					<tr><tr>
+						<td>Year</td><td><input type="number" name="year_name" min=2017 max=2099></td></tr>
 					</tr>
 					<tr id="table_heading">
 						<td></td>
@@ -63,14 +83,15 @@
 			</form>
 			<div class="spider">
 				<table style="border: solid black 3px;
-				width: 350px; background-color: rgba(10, 31, 66, 0.5);"><br><br><br><br><br>
+				width: 350px; background-color: rgba(10, 31, 66, 0.5);
+				position: fixed; top: 15%">
 				<th colspan="2" style='text-align:left;'> <h3 style='color: white; text-shadow: 3px 3px 5px black;'>Department Suggestion</h3>
 				</th>
 				<tr><td colspan="2">The department of education of South Africa recommend the following Term dates for government schools according to their website.</td></tr>
-				<tr><td style='width:60px'>Term 1</td><td>{{ term1_date }}</td></tr>
-				<tr><td style='width:65px'>Term 2</td><td>{{ term2_date }}</td></tr>
-				<tr><td style='width:75px'>Term 3</td><td>{{ term3_date }}</td></tr>
-				<tr><td style='width:85px'>Term 4</td><td>{{ term4_date }}</td></tr>
+				<tr><td style='width:60px;'>Term 1</td><td>{{ term1_date }}</td></tr>
+				<tr><td style='width:60px;'>Term 2</td><td>{{ term2_date }}</td></tr>
+				<tr><td style='width:60px;'>Term 3</td><td>{{ term3_date }}</td></tr>
+				<tr><td style='width:60px;'>Term 4</td><td>{{ term4_date }}</td></tr>
 			</table></div>
 		{% endif %}
 		{% if step == 2 %}
@@ -108,7 +129,7 @@
 						</tr>
 					</table>
 					<input type="number" name="step" value=2 style='display:none;'>
-				<input type="text" name="usr_name" value='{{user.username}}' style='display:none;'>
+				<input type="text" name="usr_name" value='{{user.username}}'>
 					<input type="submit" name="btn" value="NEXT">
 				</form>
 			{% endif %}
@@ -116,6 +137,7 @@
 				<form action="" method="POST">
 					{% csrf_token %}
 					<h1>Step {{step}}: Some subject particulars for {{ subject.subject_name }} @ {{ school_name }}:</h1>
+					<input type="hidden" name="sch_name" value="{{school_name}}">
 					<table>
 						<tr>
 							<td>How many periods do you have in total for {{ subject.subject_name }}</td>
@@ -160,10 +182,77 @@
 						</tr>
 					</table>
 					<input type="number" name="step" value=3 style='display:none;'>
-				<input type="text" name="usr_name" value='{{user.username}}' style='display:none;'>
+				<input type="text" name="usr_name" value='{{user}}'>
+				<input type="text" name="sch_name" value='{{ school_name }}' style='display:none;'>
+				<input type="text" name="subject" value='{{ subject.subject_name }}' style='display:none;'>
+					<input type="submit" name="btn">
+				</form></div>
+			{% endif %}
+			{% if step == 4 %}
+				<form action="" method="POST">
+					{% csrf_token %}
+					<h1>Class info</h1>
+					<table>
+						<tr>
+							<td colspan="2">
+								You can choose whether or not to setup your class data now, or later.  Setting up class data will enable the following features in PLANit:
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<ul>
+									<li>PLANit Assessment Planning</li>
+									<li>PLANit Marks Management</li>
+									<li>PLANit Classroom statistics</li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								Class name: 
+							</td>
+							<td>
+							( {{grade}} )  Grade : <input type="text" name="cls_name" style='width:100px;'>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								Would you like to add students now?
+							</td>
+							<td>
+								<select name='add_now'>
+									<option>Yes</option>
+									<option>No</option>
+								</select>
+							</td>
+						</tr>	
+					</table>
+					<input type="number" name="step" value=4 style='display:none;'>
+				<input type="text" name="usr_name" value='{{ user }}'>
+				<input type="text" name="sch_name" value='{{ school_name }}' style='display:none;'>
+				<input type="hidden" name="grade" value='{{ grade }}'>
+				<input type="hidden" name="subject" value='{{ subject }}'>
 					<input type="submit" name="btn">
 				</form>
 			{% endif %}
-	</div>
+			{% if step == 5 %}
+				<form action="" method="POST" id='learner_info'>
+					{% csrf_token %}
+					<h1>Learner info</h1>
+					<table id='addtable'>
+						<tr>
+							<td>Name and surname:</td>
+							<td><input type="text" name="l_name" placeholder="Name"><input type="text" name="l_surname" placeholder="Surname"></td>
+						</tr>
+					</table>
+					<input type="number" name="step" value=5 style='display:none;'>
+				<input type="text" name="usr_name" value='{{user}}' style='display:none;'>
+				<input type="text" name="sch_name" value='{{ school_name }}' style='display:none;'>
+				<input type="hidden" name="grade" value='{{ grade }}'>
+				<input type="hidden" name="subject" value='{{ subject }}'>
+				<input type="button" id="add_student" value="Add Student" onclick="add()">
+				</form>
+			{% endif %}
+
 </body>
 </html>

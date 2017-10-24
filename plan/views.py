@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.http import HttpResponse 
 from . import forms, models, scedule,termsoup
-from .models import initial_done, subject_info, school_info
+from .models import initial_done, subject_info, school_info, school_subject
 
 def home(request):
 	if request.method == "GET":
@@ -134,15 +134,67 @@ def yearplan(request):
 		school.save()
 		return render(request, 'plan/yearplan.html', {
 			'step':3,
-			'user': usr,
+			'user': request.POST.get('usr_name'),
 			'subject': sub,
 			'school_name': intro[0]
 			})
 	elif step == '3':
+		intro =[
+		request.POST.get('rtotal'),      # 0
+		request.POST.get('grade'),       # 1
+		request.POST.get('Prac_Sub'),    # 2
+		request.POST.get('prac_ratio'),  # 3
+		request.POST.get('syllabus'),    # 4
+		request.POST.get('usr_name'),    # 5
+		request.POST.get('sch_name'),    # 6
+		request.POST.get('subject')]     # 7
+			# Load post to database
+		if intro[2] == "Yes":
+			boolvar = True
+		else:
+			boolvar = False
+		user = User.objects.get(username=intro[5])
+		school = school_info.objects.filter(sch_name=intro[6])
+		school = school[0]
+		subject = subject_info.objects.get(subject_name=intro[7])
+		sch_sub = school_subject(
+			school=school,
+			user=user,
+			subject=subject,
+			periods=int(intro[0][0]),
+			grade=intro[1],
+			prac=boolvar,
+			ratio=intro[3],
+			syllabus=intro[4]
+			)
+		sch_sub.save()
+			# Redirect to class_info 'optional'
+			
+		return render(request, 'plan/yearplan.html', {
+			'step':4,
+			'user': user.username,
+			'subject': subject,
+			'school_name': intro[0],
+			'grade': intro[1]
+			})
+	elif step == '4':
+		intro = [
+		request.POST.get('cls_name'),
+		request.POST.get('add_now'),
+		request.POST.get('usr_name'),
+		request.POST.get('sch_name'),
+		request.POST.get('grade'),
+		request.POST.get('subject')
+		]
 
-		# Load post to database
-		# Redirect to class_info 'optional'
-		
-		return HttpResponse("Success")
+		if intro[1] == "Yes":
+			user = User.objects.get(username=intro[2])
+			return render(request, 'plan/yearplan.html', {
+			'step':5,
+			'user': user,
+			'subject': intro[5],
+			'school_name': intro[0],
+			'grade': intro[1]})
+
 		#finally:
 			# handle 404 error.
