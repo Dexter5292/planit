@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse 
 from . import forms, models, scedule,termsoup
 from .models import initial_done, subject_info, school_info, school_subject
+from .models import student
 
 def home(request):
 	if request.method == "GET":
@@ -174,7 +175,7 @@ def yearplan(request):
 			'step':4,
 			'user': user.username,
 			'subject': subject,
-			'school_name': intro[0],
+			'school_name': intro[6],
 			'grade': intro[1]
 			})
 	elif step == '4':
@@ -193,8 +194,30 @@ def yearplan(request):
 			'step':5,
 			'user': user,
 			'subject': intro[5],
-			'school_name': intro[0],
-			'grade': intro[1]})
-
+			'school_name': intro[3],
+			'grade': intro[4]})
+	elif step == '5':
+		intro = [
+		request.POST.get('subject'),
+		request.POST.get('sch_name'),
+		request.POST.get('grade'),
+		request.POST.get('usr_name'),
+		request.POST.get('counter')
+		]
+		studs = ["","",""]
+		for i in range(1, int(intro[4]) + 1):
+			names =(request.POST.get("%s_getName" % i))
+			surns = (request.POST.get("%s_getSurname" % i))
+			gender = (request.POST.get("%s_gender" % i))
+			studs[0] = names
+			studs[1] = surns
+			studs[2] = gender
+			tstudent = student(student_name=names,
+				student_surname=surns,
+				student_gender=gender,
+				school_name=school_info.objects.get(sch_name=intro[1])
+				)
+			tstudent.save()
+		return HttpResponse("Success")
 		#finally:
 			# handle 404 error.

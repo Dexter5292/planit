@@ -82,4 +82,28 @@ input[type='submit']{
 	color: white;
 	background-color: rgba(10, 31, 66, 0.9);
 }
+.button_box{
+	background-color: rgba(10, 31, 66, 0.5);
+	border: solid 3px black;
+	position: fixed;
+	left: 30px;
+	top: 70px;
+	color: white;
+	padding: 5px;
+}
+.button_box input[type="number"]{
+	position: relative;
+	left: 10px;
+}
+.button_box input[type="button"]{
+	width: 140px;
+	position: relative;
+	left: 20px;
+	background-color: black;
+	color: white;
+	font-size: 20px;
+	text-align: center;
+	text-shadow: 3px 3px 5px blue;
+}
+
 

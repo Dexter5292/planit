@@ -52,6 +52,8 @@ class school_subject(models.Model):
 	ratio = models.CharField(max_length=20)
 	syllabus = models.CharField(max_length=100)
 
+
+
 class cls_info(models.Model):
 	school = models.ForeignKey(school_info, on_delete=models.CASCADE)
 	class_name = models.CharField(max_length=30)
@@ -70,3 +72,10 @@ class topics(models.Model):
 
 	def __str__(self):
 		return "Topic:  " + self.topic_name + "  [ " + self.subject.subject_name + " ]"
+
+class student(models.Model):
+	student_id = models.AutoField(primary_key=True)
+	student_name = models.CharField(max_length=100)
+	student_surname = models.CharField(max_length=100)
+	student_gender = models.CharField(max_length=6)
+	school_name = models.ForeignKey(school_info, on_delete=models.CASCADE)

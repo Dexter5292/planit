@@ -6,23 +6,63 @@
 	{% load static %}
 	<link rel="stylesheet" type="text/css" href="{% static 'plan/yearplan.css' %}">
 	<script type="text/javascript">
+			var student_id = 0;
+			function count(){
+			var counter = document.getElementById("student_count");
+			counter.value=student_id;
+			}
+
+
 			function add(){
+				student_id ++;
 			var form = document.getElementById('learner_info');
 			var table_parent = document.getElementById('addtable');
 			var row = document.createElement('tr');
+			var id_dat = document.createElement('td');
+			id_dat.innerHTML = student_id;
+			id_dat.style = "padding: 0px;";
+			var gender = document.createElement('select');
+			var male = document.createElement('option');
+			male.innerHTML = "Male";
+			var female = document.createElement('option');
+			female.innerHTML = "Female";
+			var other = document.createElement('option');
+			other.innerHTML = "Other";
+			gender.appendChild(male);
+			gender.appendChild(female);
+			gender.appendChild(other);
+			gender.style = "padding-left: 0px;"
 			var data = document.createElement('td');
 			var data2 = document.createElement('td');
 			var lname = document.createElement('input');
+			row.style = "padding: 0px;";
+			data.style = "padding: 0px;";
+			data2.style = "padding: 0px; padding-left: 10px";
+			lname.placeholder = "Name";
+			lname.name= student_id + "_getName";
+			lname.style = "padding: 0px 0px 0px 0px;";
 			var lsurname = document.createElement('input');
-			var lable = document.createElement('p');
-			lable.value = "Name and Surname:"
+			lsurname.placeholder = "Surname";
+			lsurname.style = "padding: 0px 0px 0px 0px;"
+			lsurname.name = student_id + "_getSurname";
+			gender.name = student_id + "_gender";
+			
 			table_parent.appendChild(row);
+			row.appendChild(id_dat)
 			row.appendChild(data);
 			row.appendChild(data2);
-			data.appendChild(lable);
-			data2.appendChild(lname);
+			row.appendChild(gender);
+			data.appendChild(lname);
 			data2.appendChild(lsurname);
 
+			count();
+		}
+		function add_many(){
+			var amount = document.getElementById('add_many_stu');
+			for(i=0; i < amount.value ; i++){
+				add();
+			}
+		
 		}
 	</script>
 </head>
@@ -229,10 +269,11 @@
 					</table>
 					<input type="number" name="step" value=4 style='display:none;'>
 				<input type="text" name="usr_name" value='{{ user }}'>
-				<input type="text" name="sch_name" value='{{ school_name }}' style='display:none;'>
+				<input type="text" name="sch_name" value='{{ school_name }}' >
 				<input type="hidden" name="grade" value='{{ grade }}'>
 				<input type="hidden" name="subject" value='{{ subject }}'>
 					<input type="submit" name="btn">
+
 				</form>
 			{% endif %}
 			{% if step == 5 %}
@@ -240,18 +281,38 @@
 					{% csrf_token %}
 					<h1>Learner info</h1>
 					<table id='addtable'>
-						<tr>
-							<td>Name and surname:</td>
-							<td><input type="text" name="l_name" placeholder="Name"><input type="text" name="l_surname" placeholder="Surname"></td>
+						<tr id='addrow'>
+							<td style="padding: 0px;text-align: left;">
+								Number
+							</td>
+							<td style="padding: 0px; text-align: left;">
+								STUDENT NAME
+							</td>
+							<td style="padding: 0px; padding-left:10px;text-align: left;">
+								SURNAME
+							</td>
+							<td style="padding: 0px; text-align: left;">
+								GENDER
+							</td>
 						</tr>
+						
 					</table>
 					<input type="number" name="step" value=5 style='display:none;'>
 				<input type="text" name="usr_name" value='{{user}}' style='display:none;'>
 				<input type="text" name="sch_name" value='{{ school_name }}' style='display:none;'>
 				<input type="hidden" name="grade" value='{{ grade }}'>
 				<input type="hidden" name="subject" value='{{ subject }}'>
-				<input type="button" id="add_student" value="Add Student" onclick="add()">
+			<div class="button_box">
+				<input type="button" id="add_student" value="Add Student" onclick="add()"><br><br><br>
+				<label>Add multiple students at once</label><br>
+				<input type="number" id="add_many_stu"><br><br><br>
+				<input type="button" name="btn" value="Add Many" onclick="add_many()">
+				<input type="text" id="student_count" value='' style="display: none;" name="counter">
+			</div>
+				<input type="submit" name="btn">
+				
 				</form>
+			
 			{% endif %}
 
 </body>
