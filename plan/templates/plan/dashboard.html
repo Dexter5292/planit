@@ -3,12 +3,13 @@
 <head>
 	<title>Dashboard</title>
 	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="./dashboard.css">
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static/dashboard.css %}">
 </head>
 <body>
 	<div class="user-info">
 		<br>
-		<img src="./profile.png" name="ProfilePic">
+		<img src="{% static photos/profile.png" name="ProfilePic">
 		<table>
 			<tr>
 				<td colspan="2" style="color:white; text-shadow: 4px 1px 2px black; font-size: 30px">Bob Builder</td>
@@ -56,7 +57,7 @@
 	<div class="feed">
 		<table>
 			<tr>
-				<td width="100px;"><img src="./lesson.jpeg"></td>
+				<td width="100px;"><img src="{% static photos/lesson.jpeg %}"></td>
 				<td><h2>My Lesson Plans</h2></td>
 			</tr>
 		</table>

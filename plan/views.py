@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.http import HttpResponse 
@@ -63,6 +63,11 @@ def register(request):
 			{
 			'user': user
 			})
+
+
+def dashboard(request, uname):
+	return HttpResponse(str(uname) + " This redirect could work, checking sending method")
+
 
 def yearplan(request):
 	step = request.POST.get('step')
@@ -218,6 +223,7 @@ def yearplan(request):
 				school_name=school_info.objects.get(sch_name=intro[1])
 				)
 			tstudent.save()
-		return HttpResponse("Success")
+			username = intro[3]
+		return redirect('/dashboard/%s/' % username)
 		#finally:
 			# handle 404 error.
