@@ -3,8 +3,20 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.http import HttpResponse 
 from . import forms, models, scedule,termsoup
-from .models import initial_done, subject_info, school_info, school_subject
-from .models import student
+from .models import subject_info, school_info, school_subject
+from .models import student, cls_info
+
+
+def dashboard(request, uname):
+	user = User.objects.get(username=uname)
+	subjects = subject_info.objects.filter(username=user)
+	ppic = cls_info.objects.get(teacher=user)
+	ppic = ppic.profile
+	return render(request, 'plan/dashboard.html',
+	{'user': user,
+	 'subjects': subjects,
+	 'profile_pic': ppic})
+
 
 def home(request):
 	if request.method == "GET":
@@ -16,11 +28,13 @@ def home(request):
 		email = request.POST.get('email')
 		password = request.POST.get('password')
 		user = authenticate(username=email, password=password)
+		subjects = subject_info.objects.filter(username=user)
 		if user is not None: 
 			# Login to Homepage,
 
-			return render(request, 'plan/user_page.html', {
+			return redirect('./dashboard/%s' % user.username, {
 				'user': user,
+				'subjects': subjects,
 				})
 		else:
 			# Retry / Register,
@@ -63,11 +77,6 @@ def register(request):
 			{
 			'user': user
 			})
-
-
-def dashboard(request, uname):
-	return HttpResponse(str(uname) + " This redirect could work, checking sending method")
-
 
 def yearplan(request):
 	step = request.POST.get('step')

@@ -1,16 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class initial_done(models.Model):
-	username = models.ForeignKey(User, on_delete=models.CASCADE)
-	done = models.BooleanField(default=False)
-	if done == True:
-		state = "Completed"
-	else:
-		state = "No Completed"
-
-	def __str__(self):
-		return self.state
 
 class user_to_year(models.Model):
 	username = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -58,6 +48,7 @@ class cls_info(models.Model):
 	school = models.ForeignKey(school_info, on_delete=models.CASCADE)
 	class_name = models.CharField(max_length=30)
 	teacher = models.ForeignKey(User, on_delete=models.CASCADE)
+	profile = models.ImageField('profile_pic', upload_to='static plan/photos/')
 	grade = models.CharField(max_length=5)
 	subject = models.ForeignKey(subject_info, on_delete=models.CASCADE)
 

@@ -1,27 +1,29 @@
 <!DOCTYPE html>
 <html>
+<!-- Render information
+User: User.firstname, user.lastname
+Subject: List -->
 <head>
 	<title>Dashboard</title>
 	<meta charset="utf-8">
 	{% load static %}
-	<link rel="stylesheet" type="text/css" href="{% static/dashboard.css %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'plan/dashboard.css' %}">
 </head>
 <body>
 	<div class="user-info">
 		<br>
-		<img src="{% static photos/profile.png" name="ProfilePic">
+		<img src='{{profile_pic}}' name="ProfilePic">
 		<table>
 			<tr>
-				<td colspan="2" style="color:white; text-shadow: 4px 1px 2px black; font-size: 30px">Bob Builder</td>
+				<td colspan="2" style="color:white; text-shadow: 4px 1px 2px black; font-size: 30px">{{user.first_name}} {{user.last_name}}</td>
 			</tr>
 			<tr>
+				{% for x in subjects %}
 				<td style="background-color: silver; ">
-					Physical Education </td>
+					{{x}} </td>
+				}
 			</tr>
-			<tr><td style="background-color: silver;">
-					Computer Science
-				</td>
-			</tr>
+				{% endfor %}
 		</table>
 		<table class="nav-dash">
 			<tr><td>
@@ -57,7 +59,7 @@
 	<div class="feed">
 		<table>
 			<tr>
-				<td width="100px;"><img src="{% static photos/lesson.jpeg %}"></td>
+				<td width="100px;"><img src="{% static 'plan/photos/lesson.jpeg' %}"></td>
 				<td><h2>My Lesson Plans</h2></td>
 			</tr>
 		</table>
