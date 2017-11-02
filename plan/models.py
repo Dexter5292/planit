@@ -48,12 +48,17 @@ class cls_info(models.Model):
 	school = models.ForeignKey(school_info, on_delete=models.CASCADE)
 	class_name = models.CharField(max_length=30)
 	teacher = models.ForeignKey(User, on_delete=models.CASCADE)
-	profile = models.ImageField('profile_pic', upload_to='static plan/photos/')
+	profile = models.ImageField('profile_pic', upload_to='./plan/static/plan/photos/')
 	grade = models.CharField(max_length=5)
 	subject = models.ForeignKey(subject_info, on_delete=models.CASCADE)
 
 	def __str__(self):
 		return self.class_name
+	
+	
+	@property
+	def filename(self):
+		return os.path.basename(self.profile.name)
 
 class topics(models.Model):
 	subject = models.ForeignKey(subject_info, on_delete=models.CASCADE)

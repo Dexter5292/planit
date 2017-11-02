@@ -11,7 +11,7 @@ def dashboard(request, uname):
 	user = User.objects.get(username=uname)
 	subjects = subject_info.objects.filter(username=user)
 	ppic = cls_info.objects.get(teacher=user)
-	ppic = ppic.profile
+	ppic = ppic.profile.name[4:]
 	return render(request, 'plan/dashboard.html',
 	{'user': user,
 	 'subjects': subjects,
@@ -32,7 +32,7 @@ def home(request):
 		if user is not None: 
 			# Login to Homepage,
 
-			return redirect('./dashboard/%s' % user.username, {
+			return redirect('./dashboard/%s/' % user.username, {
 				'user': user,
 				'subjects': subjects,
 				})
@@ -69,9 +69,6 @@ def register(request):
 		user.first_name = firstname
 		user.last_name = lastname
 		user.save()
-
-		setup = initial_done.objects.create(username=user)
-		setup.save()
 
 		return render(request, 'plan/setup.html',
 			{
@@ -140,6 +137,7 @@ def yearplan(request):
 		roster_len = int(intro[3][0])
 		usr = request.POST.get('usr_name')
 		usr = User.objects.get(username=usr)
+		
 		sub = subject_info.objects.get(subject_name=intro[1])
 		school = school_info(username=usr,
 			sch_name=intro[0],
@@ -216,8 +214,26 @@ def yearplan(request):
 		request.POST.get('sch_name'),
 		request.POST.get('grade'),
 		request.POST.get('usr_name'),
-		request.POST.get('counter')
+		request.POST.get('counter'),
+		request.FILES.get('profilepic'),
+		request.POST.get('cls_name')
 		]
+		school__name = school_info.objects.filter(sch_name=intro[1])
+		Class__name = intro[6]
+		user = User.objects.filter(username=intro[3])
+		user = user[0]
+		profilepic = intro[5]
+		grade = intro[2]
+		subject__name = subject_info.objects.filter(subject_name=intro[1])
+		subject__name = subject__name[0]
+
+		this_class = cls_info.objects.create(school=school__name,
+			class_name=Class__name,
+			teacher=user,
+			profile=profilepic,
+			grade=grade,
+			subject=subject__name)
+		this_class.save()
 		studs = ["","",""]
 		for i in range(1, int(intro[4]) + 1):
 			names =(request.POST.get("%s_getName" % i))
@@ -226,10 +242,12 @@ def yearplan(request):
 			studs[0] = names
 			studs[1] = surns
 			studs[2] = gender
+			schoolName = school_info.objects.filter(sch_name=intro[1])
+			schoolName = schoolName[0]
 			tstudent = student(student_name=names,
 				student_surname=surns,
 				student_gender=gender,
-				school_name=school_info.objects.get(sch_name=intro[1])
+				school_name=schoolName
 				)
 			tstudent.save()
 			username = intro[3]
