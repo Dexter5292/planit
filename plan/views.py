@@ -254,3 +254,8 @@ def yearplan(request):
 		return redirect('/dashboard/%s/' % username)
 		#finally:
 			# handle 404 error.
+
+def planit(request, uname):
+	return render(request, 'plan/planit.html', {
+		'user':uname,
+		'step': '0'})

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>PLAN-it</title>
+	<meta charset="utf-8">
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'plan/planit.css' %}">
+	<script type="text/javascript">
+		function selected_monday(){
+			var btn = document.getElementById("mondaybtn");
+			btn.style = "background-color: rgba(128, 253, 93, 0.71); box-shadow: 5px 3px 5px 5px black inset";
+			var sform = document.getElementById("subform");
+			var monday = document.createElement("input");
+			moday.type = 'hidden';
+			monday.value = 1;
+			sform.appendChild(monday);
+		}
+		function selected_tuesday(){
+			var btn = document.getElementById("tuesdaybtn");
+			btn.style = "background-color: rgba(93, 253, 218, 0.71); box-shadow: 5px 3px 5px 5px black inset";
+		}
+		function selected_wednesday(){
+			var btn = document.getElementById("wednesdaybtn");
+			btn.style = "background-color: rgba(138, 93, 253, 0.71); box-shadow: 5px 3px 5px 5px black inset";
+		}
+		function selected_thursday(){
+			var btn = document.getElementById("thursdaybtn");
+			btn.style = "background-color: rgba(253, 138, 93, 0.71); box-shadow: 5px 3px 5px 5px black inset";
+		}
+		function selected_friday(){
+			var btn = document.getElementById("fridaybtn");
+			btn.style = "background-color: rgba(208, 253, 93, 0.71); box-shadow: 5px 3px 5px 5px black inset";
+		}
+	</script>
+</head>
+<body>
+	{% if step == '0' %}
+		<div class="header">
+			<table>
+				<tr>
+					<td colspan="4"><h1>Lesson Plan Generator</h1></td>
+				</tr>
+				<tr>
+					<td>for {{user}}</td>
+				</tr>
+			</table>
+		</div>
+		<div class='week'>
+			<table>
+				<tr><td><h2>Select the days of the week that you would like to plan for:</h2></td>
+				</tr>
+			</table>
+			<input type="button" name="monday" value="Monday" id="mondaybtn" onclick="selected_monday()">
+			<input type="button" name="tuesday" value="Tueasday" id="tuesdaybtn" onclick="selected_tuesday()">
+			<input type="button" name="wednesday" value="Wednesday" id="wednesdaybtn" onclick="selected_wednesday()">
+			<input type="button" name="thursday" value="Thursday" id="thursdaybtn" onclick="selected_thursday()">
+			<input type="button" name="friday" value="Friday" id="fridaybtn" onclick="selected_friday()">
+		</div>
+		<form action='' method='POST' id='subform'>
+			{% csrf_token %}
+			<input type="submit" name="Continue">
+			<input type="hidden" name="step" value='1'>
+		</form>
+	{% endif %}
+</body>
+</html>

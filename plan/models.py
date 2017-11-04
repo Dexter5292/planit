@@ -60,14 +60,30 @@ class cls_info(models.Model):
 	def filename(self):
 		return os.path.basename(self.profile.name)
 
-class topics(models.Model):
+class unit(models.Model):
 	subject = models.ForeignKey(subject_info, on_delete=models.CASCADE)
-	topic_number = models.AutoField(primary_key=True)
-	topic_name = models.CharField(max_length=100)
+	unit_number = models.AutoField(primary_key=True)
+	unit_name = models.CharField(max_length=100)
 	syllabus = models.CharField(max_length=100)
 
 	def __str__(self):
-		return "Topic:  " + self.topic_name + "  [ " + self.subject.subject_name + " ]"
+		return "Unit:  " + self.unit_name + "  [ " + self.subject.subject_name + " ]"
+
+class topic(models.Model):
+	unit = models.ForeignKey(unit, on_delete=models.CASCADE)
+	topic_number = models.AutoField(primary_key=True)
+	topic_name = models.CharField(max_length=300)
+
+	def __str__(self):
+		return "Topic: " + self.topic_name  
+
+class content(models.Model):
+	topic = models.ForeignKey(topic, on_delete=models.CASCADE)
+	content_number = models.AutoField(primary_key=True)
+	content_value = models.CharField(max_length=3000)
+
+	def __str__(self):
+		return "Content: " + str(self.content_number)
 
 class student(models.Model):
 	student_id = models.AutoField(primary_key=True)
@@ -75,3 +91,4 @@ class student(models.Model):
 	student_surname = models.CharField(max_length=100)
 	student_gender = models.CharField(max_length=6)
 	school_name = models.ForeignKey(school_info, on_delete=models.CASCADE)
+

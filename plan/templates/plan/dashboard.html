@@ -21,13 +21,17 @@ Subject: List -->
 				{% for x in subjects %}
 				<td style="background-color: silver; ">
 					{{x}} </td>
-				}
 			</tr>
 				{% endfor %}
 		</table>
 		<table class="nav-dash">
 			<tr><td>
-				<form>
+				<form action='./plan-it/' method='POST'>
+					{% csrf_token %}
+					<input type="hidden" name="user" value='{{user.username}}'>
+					{% for i in subjects %}
+						<input type="hidden" name="subject:" value='{{i}}'>
+					{% endfor %}
 					<input type="submit" name="sub_Plan" value="PLAN-it">
 				</form>
 			</td></tr>

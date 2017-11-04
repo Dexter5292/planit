@@ -1,0 +1,49 @@
+@font-face{
+	font-family: 'oj2';
+	src: url('./fonts/oj2.ttf');
+}
+
+body{
+	background-image: url('./photos/desk.jpeg');
+	background-size: 100%;
+}
+.header table{
+	border: solid 1px black;
+	width: 100%;
+	text-align: center;
+	background-color: rgba(0,0,0,0.9);
+	background-image: url('./photos/paper.jpeg');
+	overflow-y: hidden;
+
+}
+.header h1{
+	font-family: "oj2";
+	font-size: 300%;
+	letter-spacing: 3px;
+}
+.week h2{
+	background-color: orange;
+	border: solid 3px orange;
+	margin: 3px;
+	text-align: center;
+	height: 30px;
+}
+.week input[type='button']{
+	height: 250px;
+	width: 19.5%;
+	padding: 10px;
+	font-family: 'oj2';
+	font-size: 300%;
+	text-shadow: 5px 2px 2px white;
+	background-color: rgba(63, 191, 191, 0.61);
+	-webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+.week input[type='button']:hover{
+	background-color: rgb(63, 191, 191); /* Green */
+    color: black;
+}
+.week table{
+	border: solid 2px orange;
+	width: 100%;
+}
