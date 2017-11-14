@@ -32,6 +32,7 @@ Subject: List -->
 					{% for i in subjects %}
 						<input type="hidden" name="subject:" value='{{i}}'>
 					{% endfor %}
+					<input type="hidden" name="step" value="0">
 					<input type="submit" name="sub_Plan" value="PLAN-it">
 				</form>
 			</td></tr>
@@ -47,6 +48,7 @@ Subject: List -->
 			</td></tr>
 			<tr><td>
 				<form>
+					<input type="hidden" name="step" value='0'>
 					<input type="submit" name="sub_week" value="PLAN-it Week">
 				</form>
 			</td></tr>

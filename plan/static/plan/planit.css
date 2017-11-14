@@ -1,7 +1,7 @@
 @font-face{
 	font-family: 'oj2';
 	src: url('./fonts/oj2.ttf');
-}
+} 
 
 body{
 	background-image: url('./photos/desk.jpeg');
@@ -46,4 +46,27 @@ body{
 .week table{
 	border: solid 2px orange;
 	width: 100%;
+}
+.select_unit form{
+	width: 98%;
+	border: solid 1px black;
+	padding: 10px;
+	background-color: rgba(204,204,204, 0.6);
+}
+.select_unit input[type='button'], input[type='submit']{
+	padding: 25px;
+	margin: 15px;
+	width: 200px;
+	height: 50px;
+	background-color: rgba(102,153,204, 0.9);
+	padding:0px;
+	font-family: 'oj2';
+	font-size: 200%;
+	color: white;
+	text-shadow: 2px 2px 2px black;
+	border: solid 2px orange;
+}
+.select_unit option, h2{
+	text-align: center;
+
 }

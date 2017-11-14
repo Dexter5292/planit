@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html>
 <head>
 	<title>PLAN-it</title>
@@ -6,35 +6,50 @@
 	{% load static %}
 	<link rel="stylesheet" type="text/css" href="{% static 'plan/planit.css' %}">
 	<script type="text/javascript">
+		var count = 0;
 		function selected_monday(){
 			var btn = document.getElementById("mondaybtn");
 			btn.style = "background-color: rgba(128, 253, 93, 0.71); box-shadow: 5px 3px 5px 5px black inset";
-			var sform = document.getElementById("subform");
-			var monday = document.createElement("input");
-			moday.type = 'hidden';
-			monday.value = 1;
-			sform.appendChild(monday);
+			var day = document.getElementById("day_count");
+			day.value = day.value + "M";
 		}
 		function selected_tuesday(){
 			var btn = document.getElementById("tuesdaybtn");
 			btn.style = "background-color: rgba(93, 253, 218, 0.71); box-shadow: 5px 3px 5px 5px black inset";
+			var day = document.getElementById("day_count");
+			day.value = day.value + "T";
+			
 		}
 		function selected_wednesday(){
 			var btn = document.getElementById("wednesdaybtn");
 			btn.style = "background-color: rgba(138, 93, 253, 0.71); box-shadow: 5px 3px 5px 5px black inset";
+			var day = document.getElementById("day_count");
+			day.value = day.value + "W";
 		}
 		function selected_thursday(){
 			var btn = document.getElementById("thursdaybtn");
 			btn.style = "background-color: rgba(253, 138, 93, 0.71); box-shadow: 5px 3px 5px 5px black inset";
+			var day = document.getElementById("day_count");
+			day.value = day.value + "t";
 		}
 		function selected_friday(){
 			var btn = document.getElementById("fridaybtn");
 			btn.style = "background-color: rgba(208, 253, 93, 0.71); box-shadow: 5px 3px 5px 5px black inset";
+			var day = document.getElementById("day_count");
+			day.value = day.value + "F";
+		}
+		function add_unit(){
+			var form = document.getElementById("more");
+			var ediv = document.getElementById("Units")
+			var myDiv = ediv.cloneNode(true);
+			myDiv.name = "units" + count;
+			count ++;
+			form.appendChild(myDiv);
 		}
 	</script>
 </head>
 <body>
-	{% if step == '0' %}
+	
 		<div class="header">
 			<table>
 				<tr>
@@ -45,6 +60,7 @@
 				</tr>
 			</table>
 		</div>
+		{% if step == '0' %}
 		<div class='week'>
 			<table>
 				<tr><td><h2>Select the days of the week that you would like to plan for:</h2></td>
@@ -58,9 +74,29 @@
 		</div>
 		<form action='' method='POST' id='subform'>
 			{% csrf_token %}
-			<input type="submit" name="Continue">
 			<input type="hidden" name="step" value='1'>
+			<input type="text" name="day_count" id="day_count" value="">
+			<input type="submit" name="Continue">
+			{% csrf_token %}
 		</form>
+	{% endif %}
+	{% if step == '1.1' %}
+			<div class="select_unit">
+			<form action='' method="POST" id="step1form">
+			<h1 style='display: inline;'>Creating a lesson plan for Monday: </h1> <input type="date" name="lesson_date", placeholder="Lesson Date" style="display: inline;">
+			<h2>Select the units to cover: for {{subject}} </h2>
+			<select id="Units">
+				{% for i in units %}
+				<option>{{i}}</option>
+				{% endfor %}
+			</select>
+			<div id="more"></div>
+			<input type="button" value="Add more" name="btn" onclick="add_unit()">
+			<input type="submit" name="btn">
+			<input type="hidden" name="step" value='1.2'>
+			{% csrf_token %}
+		</form>
+		</div>
 	{% endif %}
 </body>
 </html>

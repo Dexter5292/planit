@@ -4,7 +4,8 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse 
 from . import forms, models, scedule,termsoup
 from .models import subject_info, school_info, school_subject
-from .models import student, cls_info
+from .models import student, cls_info, unit, topic, content
+from docx import Document
 
 
 def dashboard(request, uname):
@@ -256,6 +257,54 @@ def yearplan(request):
 			# handle 404 error.
 
 def planit(request, uname):
-	return render(request, 'plan/planit.html', {
-		'user':uname,
-		'step': '0'})
+	step = request.POST.get('step')
+	if step == "0":
+		return render(request, 'plan/planit.html', {
+								'user':uname,
+								'step': '0'})
+	elif step == "1":
+		days = request.POST.get("day_count")
+		user = User.objects.get(username=uname)
+		school = school_subject.objects.get(user=user)
+		grade = school.grade
+		syllabus = school.syllabus
+		subject = school.subject
+		try:
+			subject = subject_info.objects.get(username=user)
+		except:
+			subject = subject_info.objects.filter(username=user)
+			subject = subject[0]
+		period_time = school_info.objects.get(username=user)
+		period_time = period_time.sch_period_length
+		all_unit = unit.objects.filter(subject=subject)
+		for i in days:
+			if i[0] == "M":
+				return render(request, 'plan/planit.html',{
+					'step': '1.1',
+					'user': user,
+					'units': all_unit,
+					'subject': subject,
+					})
+	elif step == '1.2':
+		user = User.objects.get(username=uname)
+		school = school_subject.objects.get(user=user)
+		subject = school.subject
+		all_unit = unit.objects.filter(subject=subject)
+		intro = []
+		for i in range(0, len(all_unit)):
+			try:
+				into.append(request.POST.get('units%s' % i))
+			except:
+				pass
+		counter = 0
+		lessonplan = Document()
+		sections = lessonplan.sections
+		for section in sections:
+			section.top_margin = 114300
+			section.bottom_margin = 114300
+			section.left_margin = 460000
+			section.right_margin = 114300
+		lessonplan.add_heading("Lesson Plan")
+		lessonplan.save("./%s.docx" % user)
+		return HttpResponse("Success")
+		
