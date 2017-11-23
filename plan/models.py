@@ -67,7 +67,7 @@ class unit(models.Model):
 	syllabus = models.CharField(max_length=100)
 
 	def __str__(self):
-		return "Unit:  " + self.unit_name + "  [ " + self.subject.subject_name + " ]"
+		return self.unit_name 
 
 class topic(models.Model):
 	unit = models.ForeignKey(unit, on_delete=models.CASCADE)
@@ -75,7 +75,7 @@ class topic(models.Model):
 	topic_name = models.CharField(max_length=300)
 
 	def __str__(self):
-		return "Topic: " + self.topic_name  
+		return self.topic_name  
 
 class content(models.Model):
 	topic = models.ForeignKey(topic, on_delete=models.CASCADE)

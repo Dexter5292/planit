@@ -5,8 +5,9 @@ from django.http import HttpResponse
 from . import forms, models, scedule,termsoup
 from .models import subject_info, school_info, school_subject
 from .models import student, cls_info, unit, topic, content
-from docx import Document
-
+#  from docx import Document
+from .plantodocx import plan 
+plan_object = ""
 
 def dashboard(request, uname):
 	user = User.objects.get(username=uname)
@@ -257,7 +258,14 @@ def yearplan(request):
 			# handle 404 error.
 
 def planit(request, uname):
+	plan_now = plan()
 	step = request.POST.get('step')
+	user = User.objects.get(username=uname)
+	plan_now.set_user(user)
+	__unit = []
+	__topics = []
+	__content = []
+	__date = ""
 	if step == "0":
 		return render(request, 'plan/planit.html', {
 								'user':uname,
@@ -274,6 +282,8 @@ def planit(request, uname):
 		except:
 			subject = subject_info.objects.filter(username=user)
 			subject = subject[0]
+		plan_now.set_subject(subject)
+
 		period_time = school_info.objects.get(username=user)
 		period_time = period_time.sch_period_length
 		all_unit = unit.objects.filter(subject=subject)
@@ -286,25 +296,91 @@ def planit(request, uname):
 					'subject': subject,
 					})
 	elif step == '1.2':
-		user = User.objects.get(username=uname)
+		# Preparing data:
+
+		user = User.objects.get(username=uname)	
+		date = request.POST.get("lesson_date")
+		plan_now.set_date(date)
+		__date = date
 		school = school_subject.objects.get(user=user)
 		subject = school.subject
+		grade = school_subject.objects.get(subject=subject, user=user)
+		grade = grade.grade
+		plan_now.set_grade(grade)
+		period_time = school_info.objects.get(username=user)
+		period_time = period_time.sch_period_length
+		plan_now.set_time(period_time)
 		all_unit = unit.objects.filter(subject=subject)
+
+		# Extracting information from HTML user form.
 		intro = []
+		unitz = []
+		intro.append(request.POST.get("units0"))
 		for i in range(0, len(all_unit)):
 			try:
-				into.append(request.POST.get('units%s' % i))
+				intro.append(request.POST.get('units%s' % i))
 			except:
 				pass
-		counter = 0
-		lessonplan = Document()
-		sections = lessonplan.sections
-		for section in sections:
-			section.top_margin = 114300
-			section.bottom_margin = 114300
-			section.left_margin = 460000
-			section.right_margin = 114300
-		lessonplan.add_heading("Lesson Plan")
-		lessonplan.save("./%s.docx" % user)
-		return HttpResponse("Success")
+
+		# Searching for units from the database.
+		for item in intro:
+			unitx = unit.objects.filter(unit_name=item)
+			unitz.append(unitx)
+		__unit = unitz
+		plan_now.set_units(unitz)
+
+		# Searching database for topics that relate to the selected units.
+		topics = []
+		for i in unitz:
+			topicx = topic.objects.filter(unit=i)
+			for u in topicx:
+				topics.append(u)
+		__topics = topics
+		plan_now.set_topics(topics)
+
+		return render(request, 'plan/planit.html',{
+					'step': '1.3',
+					'user': user,
+					'topics': topics,
+					'date': date,
+					
+					})
+	elif step == "1.4":
+		intro = []
+		for i in range(0, 5):
+			try:
+				intro.append(request.POST.get('topic%s' % i))
+			except:
+				pass
+		for i in intro:
+			temp = topic.objects.filter(topic_name=i)
+			context = content.objects.filter(topic=temp)
+			for x in context:	
+				__content.append(x)
+		c = __content
+		plan_now.set_content(c)
+		topix = __topics
 		
+		return render(request, "plan/planit.html",{
+			"step": "1.4",
+			'user': user,
+			'topics': topix,
+			'date': plan_now.date,
+			'content': c,
+					})
+	elif step == "1.5":
+		objectives = []
+		selected = request.POST.get('selected')
+		for counter in range(1, int(selected)+1):
+			try:
+				jump = request.POST.get("Content: {}".format(counter))
+				objectives.append(jump)
+				counter += 1
+			except:
+				continue
+		plan_now.set_content(objectives)
+		return render(request, 'plan/planit.html', {
+			"step": "1.5",
+			"user": user,
+			"objectives": objectives,
+			})

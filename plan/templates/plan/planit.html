@@ -7,6 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'plan/planit.css' %}">
 	<script type="text/javascript">
 		var count = 0;
+		var select = 0;
 		function selected_monday(){
 			var btn = document.getElementById("mondaybtn");
 			btn.style = "background-color: rgba(128, 253, 93, 0.71); box-shadow: 5px 3px 5px 5px black inset";
@@ -40,9 +41,37 @@
 		}
 		function add_unit(){
 			var form = document.getElementById("more");
-			var ediv = document.getElementById("Units")
+			var ediv = document.getElementById("Units");
 			var myDiv = ediv.cloneNode(true);
 			myDiv.name = "units" + count;
+			myDiv.style = "display: inline;";
+			count ++;
+			form.appendChild(myDiv);
+		}
+		function add_topic(){
+			var form = document.getElementById("more");
+			var ediv = document.getElementById("topics")
+			var myDiv = ediv.cloneNode(true);
+			myDiv.name = "topic" + count;
+			myDiv.style = "display: inline;";
+			count ++;
+			form.appendChild(myDiv);
+		}
+		function reset_count(){
+			count = 0;
+		}
+		function count_select(){
+			select ++;
+			var selected = document.getElementById("selected");
+			selected.value = select;
+		}
+		function add_act(){
+			count = 0;
+			var form = document.getElementById("more");
+			var ediv = document.getElementById("act");
+			var myDiv = ediv.cloneNode(true);
+			myDiv.name = "act" + count;
+			myDiv.style = "display: inline;";
 			count ++;
 			form.appendChild(myDiv);
 		}
@@ -85,17 +114,98 @@
 			<form action='' method="POST" id="step1form">
 			<h1 style='display: inline;'>Creating a lesson plan for Monday: </h1> <input type="date" name="lesson_date", placeholder="Lesson Date" style="display: inline;">
 			<h2>Select the units to cover: for {{subject}} </h2>
-			<select id="Units">
+			<select id="Units" style="display: none">
 				{% for i in units %}
 				<option>{{i}}</option>
 				{% endfor %}
 			</select>
 			<div id="more"></div>
-			<input type="button" value="Add more" name="btn" onclick="add_unit()">
+			<input type="button" value="Add Unit" name="btn" onclick="add_unit()">
 			<input type="submit" name="btn">
 			<input type="hidden" name="step" value='1.2'>
 			{% csrf_token %}
 		</form>
+		</div>
+	{% endif %}
+	{% if step == '1.2' %}
+			
+			<div class="select_unit">
+			<form action='' method="POST" id="step1form">
+			<h1 style='display: inline;'>Creating a lesson plan for Monday: {{ date }}</h1> 
+			<h2>Select the topics that relate to the units you picked in the previous step </h2>
+			<select id="topics">
+				{% for i in topics %}
+				<option>{{i}}</option>
+				{% endfor %}
+			</select>
+			<div id="more"></div>
+			<input type="button" value="Add more" name="btn" onclick="add_topic()">
+			<input type="submit" name="btn">
+			<input type="hidden" name="step" value='1.2'>
+			{% csrf_token %}
+		</form>
+		</div>
+	{% endif %}
+	{% if step == '1.3' %}
+		<div class="select_unit">
+			<form action='' method="POST" id="step1form">
+				<h1 style='display: inline;'>Creating a lesson plan for Monday: {{ date }}</h1> 
+				<h2>Select the topics that relate to the units you picked in the previous step </h2>
+				<select id="topics" style="display:none;">
+					{% for i in topics %}
+					<option>{{i}}</option>
+					{% endfor %}
+				</select>
+				<div id="more"></div>
+				<input type="button" value="Add more" name="btn" onclick="add_topic()">
+				<input type="submit" name="btn">
+				<input type="hidden" name="step" value='1.4'>
+				 {% csrf_token %}
+			</form>
+		</div>  
+	{% endif %}
+	{% if step == "1.4" %}
+		<div class="select_unit">
+			<form action='' method="POST" id="step1form">
+				<h1 style='display: inline;'>Creating a lesson plan for Monday: {{ date }}</h1> 
+				<h2>You can choose to add context to your lesson plan!  <br>Context's are small little summaries of
+				the content you would like to cover:</h2>
+				{% for i in content %}
+					<input type="checkbox" name="{{i}}" value="{{i.content_value}}" onchange="count_select()">{{i.content_value}}<br>
+				{% endfor %}
+				<input type="submit" name="btn">
+				<input type="hidden" name="step" value='1.5'>
+				<input type="hidden" name="selected" id='selected' value='0'>
+				 {% csrf_token %}
+			</form>
+		</div>
+	{% endif %}
+	{% if step == '1.5' %}
+		<div class="select_unit">
+			<form action='' method="POST" id="step1form">
+				<h1 style='display: inline;'>Creating a lesson plan for Monday: {{ date }}</h1> 
+				<h2>Time to plan your classroom activities:  <br>Lets start by selecting some activities, assigning times and roles:</h2>
+				<progress value="50" max="100" id='prog' style='width: 80%;'> </progress><br>
+				<hr><hr>
+				<div id='act' style='display:none; padding-top: 5px;'>
+				<select>
+						<option>Educator</option>
+						<option>Individual work</option>
+						<option>Paired work</option>
+						<option>Group Work</option>
+						<option>Class Activity</option>
+						<option>Practical</option>
+				</select>
+					<input type="text" name="activity" placeholder="Type in Activity" style="width:70%;">
+					<input type="number" name="time"> 
+					<br>
+				</div>
+				<div id='more'></div>
+				<input type="button" name="add" onclick="add_act()" value="Add Activity">
+				<input type="submit" name="btn">
+				<input type="hidden" name="step" value='1.5'>
+				 {% csrf_token %}
+			</form>
 		</div>
 	{% endif %}
 </body>
